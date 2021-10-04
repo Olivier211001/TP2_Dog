@@ -4,8 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DogFetchApp"
+        xmlns:p="clr-namespace:DogFetchApp.Properties"
         mc:Ignorable="d"
-        Title="Dog picture fetcher" Height="450" Width="800">
+        Title="{x:Static p:Resources.title}" Name="title" Height="450" Width="800"
+        Loaded="title_Loaded">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Margin" Value="5"/>
@@ -19,10 +21,10 @@
     </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="Réglage">
-                <MenuItem Header="Langues">
-                    <MenuItem Header="Français"/>
-                    <MenuItem Header="English"/>
+            <MenuItem Name="settings" Header="{x:Static p:Resources.settings}">
+                <MenuItem Name="language" Header="{x:Static p:Resources.language}">
+                    <MenuItem Name="f" Header="{x:Static p:Resources.f}" Click="f_Click"/>
+                    <MenuItem Name="e" Header="{x:Static p:Resources.e}" Click="e_Click"/>
                 </MenuItem>
             </MenuItem>
         </Menu>
@@ -37,7 +39,7 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -46,28 +48,32 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Column="0" Grid.Row="0" Text="Breed : "/>
-            <ComboBox Grid.Column="1" Grid.Row="0">
+            <TextBlock Name="breed" Grid.Column="0" Grid.Row="0" Text="{x:Static p:Resources.breed}"/>
+            <ComboBox Name="comboR" Grid.Column="1" Grid.Row="0">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        
+                        <TextBlock Text="{Binding}"></TextBlock>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <TextBlock Grid.Row="1" Text="Nombre de photos :"/>
-            <ComboBox Grid.Row="1" Grid.Column="1">
+            <TextBlock Name="nbP" Grid.Row="1" Text="{x:Static p:Resources.nbP}"/>
+            <ComboBox Name="comboPics" Grid.Row="1" Grid.Column="1">
                 <ComboBoxItem Content="1"/>
                 <ComboBoxItem Content="3"/>
                 <ComboBoxItem Content="5"/>
                 <ComboBoxItem Content="10"/>
             </ComboBox>
-            <Button Grid.Row="2" Grid.Column="1" Content="Fetch!" Width="150"/>
+            <Button Name="fetch" Grid.Row="2" Grid.Column="1" Click="fetch_Click" Content="{x:Static p:Resources.fetch}" Width="150"/>
             <Grid Grid.Row="3" Grid.ColumnSpan="2" Margin="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="58*"/>
+                    <ColumnDefinition Width="317*"/>
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <ListView Grid.Row="0" ItemsSource="{Binding}">
+                <ListView Grid.Row="0" Name="ListI" Grid.ColumnSpan="2">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Columns="5" HorizontalAlignment="Stretch"/>
@@ -77,15 +83,15 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                                <Image Source="{Binding}" HorizontalAlignment="Stretch" VerticalAlignment="Top" Stretch="UniformToFill"/>
-                                <TextBlock Text="{Binding }" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" />
+                                <Image Source="{Binding Img}"  MaxHeight="100" HorizontalAlignment="Stretch" VerticalAlignment="Top" Stretch="Fill"/>
+                                <TextBlock Text="{Binding Img}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" />
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-                    <Button Content="Previous" Margin="10"/>
-                    <Button Content="Next" Margin="10"/>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="189,5,0,5" Grid.Column="1">
+                    <Button Name="previous" Content="{x:Static p:Resources.previous}" Margin="10"/>
+                    <Button Name="next" Click="next_Click" Content="{x:Static p:Resources.next}" Margin="10"/>
                 </StackPanel>
             </Grid>
         </Grid>

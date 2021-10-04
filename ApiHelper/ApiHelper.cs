@@ -1,5 +1,7 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace ApiHelper
 {
@@ -14,5 +16,6 @@ namespace ApiHelper
             ApiClient.DefaultRequestHeaders.Accept.
                 Add(new MediaTypeWithQualityHeaderValue("application/json"));           
         }
+
     }
 }
